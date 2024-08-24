@@ -3,6 +3,8 @@ import fastapi
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
+from .routers import member
+
 dotenv.load_dotenv(verbose=True)
 
 app = fastapi.FastAPI()
@@ -13,6 +15,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.include_router(
+    member.router,
+    prefix="/member",
+    tags=["member"],
+    responses={418: {"message": "I'm a teapot"}}
 )
 
 
